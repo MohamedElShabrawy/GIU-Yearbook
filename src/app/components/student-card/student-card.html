@@ -1,0 +1,38 @@
+<!-- FILE: components/student-card/student-card.html
+     WHAT: One student card. The whole card is a link to the student's story.
+     WHY:  The structure follows Figma, outside in: link > photo + body. -->
+<a
+  class="card"
+  [routerLink]="['/students', student().id]"
+  [attr.aria-label]="'Read the story of ' + student().name"
+>
+  <!-- Portrait. If the file is missing, (error) switches to the placeholder. -->
+  <img
+    class="card__photo"
+    [src]="photoSrc()"
+    [alt]="'Portrait of ' + student().name"
+    loading="lazy"
+    (error)="onImageError()"
+  />
+
+  <div class="card__body">
+    <!-- Name on the left, arrow icon on the right. -->
+    <div class="card__heading">
+      <h3 class="card__name">{{ student().name }}</h3>
+      <svg
+        class="card__arrow"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M7 17 17 7M8 7h9v9" />
+      </svg>
+    </div>
+    <p class="card__meta">{{ student().faculty }} · Class of {{ student().classYear }}</p>
+    <p class="card__quote">“{{ student().quote }}”</p>
+  </div>
+</a>

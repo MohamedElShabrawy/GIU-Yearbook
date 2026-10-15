@@ -10,6 +10,7 @@
    ===================================================================== */
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 
+import { StudentCard } from '../../components/student-card/student-card';
 import { Student } from '../../models/student.model';
 import { StudentService } from '../../services/student.service';
 
@@ -18,6 +19,8 @@ type SortMode = 'featured' | 'name';
 
 @Component({
   selector: 'app-student-page',
+  // Every standalone component used in the template must be listed here.
+  imports: [StudentCard],
   templateUrl: './students-page.html',
   styleUrl: './students-page.css',
 })
