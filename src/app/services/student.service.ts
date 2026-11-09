@@ -32,9 +32,7 @@ export class StudentService {
       // FAKE API: read the JSON file from /public/mock-api.
       // delay(400) waits 400ms so students can SEE the loading state,
       // just like a real network request would take time.
-      return this.http
-        .get<Student[]>('mock-api/students.json')
-        .pipe(delay(400));
+      return this.http.get<Student[]>('mock-api/students.json').pipe(delay(400));
     }
 
     // REAL API (backend phase): same return type, different URL.
