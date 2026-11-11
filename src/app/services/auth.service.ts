@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -21,8 +21,11 @@ export class AuthService {
   // Switch between mock-api and real backend automatically
   private baseUrl = environment.useMockApi ? '/mock-api' : `${environment.apiUrl}/auth`;
 
-  // Signal holding the signed-in user state
-  readonly currentUser = signal<User | null>(null);
+  // Signal holding the signed-in user state.
+  // Only this service can change it; everybody else gets a read-only view.
+  private readonly _currentUser = signal<User | null>(null);
+  readonly currentUser = this._currentUser.asReadonly();
+  readonly isLoggedIn = computed(() => this._currentUser() !== null);
 
   /**
    * STEP 1: Login
@@ -34,7 +37,7 @@ export class AuthService {
       .post<User>(`${this.baseUrl}/login`, credentials, {
         withCredentials: true, // IMPORTANT: Allows browser to store the HttpOnly cookie
       })
-      .pipe(tap((user) => this.currentUser.set(user)));
+      .pipe(tap((user) => this._currentUser.set(user)));
   }
 
   /**
@@ -48,8 +51,8 @@ export class AuthService {
       })
       .pipe(
         tap({
-          next: (user) => this.currentUser.set(user),
-          error: () => this.currentUser.set(null),
+          next: (user) => this._currentUser.set(user),
+          error: () => this._currentUser.set(null),
         }),
       );
   }
@@ -67,6 +70,6 @@ export class AuthService {
           withCredentials: true,
         },
       )
-      .pipe(tap(() => this.currentUser.set(null)));
+      .pipe(tap(() => this._currentUser.set(null)));
   }
 }
