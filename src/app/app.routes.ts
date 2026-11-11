@@ -10,6 +10,7 @@ import { StudentsPage } from './pages/students-page/students-page';
 import { StaffPage } from './pages/staff-page/staff-page';
 import { PlaceholderPage } from './pages/placeholder-page/placeholder-page';
 import { LoginPage } from './pages/login-page/login-page';
+import { ProfilePage } from './pages/profile-page/profile-page';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -32,12 +33,11 @@ export const routes: Routes = [
   { path: 'students/:id', component: PlaceholderPage, data: { title: 'Student story' } },
 
   // canActivate runs the guard first: no cookie, no profile page.
-  // Task 2 replaces PlaceholderPage with the real profile page.
   {
     path: 'profile',
-    component: PlaceholderPage,
-    data: { title: 'My profile' },
+    component: ProfilePage,
     canActivate: [authGuard],
+    title: 'My profile · GIU Yearbook',
   },
 
   // STEP 4: Wildcard. Any unknown URL goes back to the home page.
