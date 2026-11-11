@@ -8,6 +8,7 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { SavedService } from '../../services/saved.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -34,4 +35,7 @@ export class Header {
 
   // The same shared SavedService the cards use. Its count drives the badge.
   protected readonly saved = inject(SavedService);
+
+  // Who is signed in? The header reads the read-only signal from AuthService.
+  protected readonly auth = inject(AuthService);
 }
