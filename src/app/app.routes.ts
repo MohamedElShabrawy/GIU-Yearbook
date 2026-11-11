@@ -10,6 +10,7 @@ import { StudentsPage } from './pages/students-page/students-page';
 import { StaffPage } from './pages/staff-page/staff-page';
 import { PlaceholderPage } from './pages/placeholder-page/placeholder-page';
 import { LoginPage } from './pages/login-page/login-page';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   // STEP 1: The landing page. An empty path '' means "the home URL".
@@ -29,6 +30,15 @@ export const routes: Routes = [
   // STEP 3: `:id` is a route PARAMETER. /students/3 and /students/7 both
   // match this route. The page can read the number later.
   { path: 'students/:id', component: PlaceholderPage, data: { title: 'Student story' } },
+
+  // canActivate runs the guard first: no cookie, no profile page.
+  // Task 2 replaces PlaceholderPage with the real profile page.
+  {
+    path: 'profile',
+    component: PlaceholderPage,
+    data: { title: 'My profile' },
+    canActivate: [authGuard],
+  },
 
   // STEP 4: Wildcard. Any unknown URL goes back to the home page.
   // COMMON MISTAKE: this MUST be last. Routes are matched top to bottom.
