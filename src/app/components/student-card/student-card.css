@@ -1,4 +1,5 @@
 .card {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -46,4 +47,39 @@
 
 .card__quote {
     font: italic 400 17px/1.4 var(--font-serif);
+}
+
+/* The heart sits on top of the photo, in the top-right corner. */
+.card__save {
+    position: absolute;
+    top: var(--space-3);
+    z-index: 2;
+    right: var(--space-3);
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-white);
+    color: var(--color-ink);
+    cursor: pointer;
+}
+
+.card__save:hover {
+    color: var(--color-red);
+}
+
+.card__save svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Saved: red heart, filled in. */
+.card__save--on {
+    color: var(--color-red);
+}
+
+.card__save--on svg {
+    fill: currentColor;
 }
